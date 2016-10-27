@@ -769,6 +769,10 @@ func sendNotificationEmail(c *Context, post *model.Post, user *model.User, chann
 		} else {
 			// if the recipient isn't in the current user's team, just pick one
 			teams := result.Data.([]*model.Team)
+			// skip sending notification if the user is not in any team
+			if len(teams) == 0 {
+				return
+			}
 			found := false
 
 			for i := range teams {
